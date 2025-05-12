@@ -25,9 +25,14 @@ route::get('/home', [AdminController::class, 'index']);
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/appointments/create', [AppointmentController::class, 'create'])->name('appointments.create');
-    Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
+    Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointments.index');
        Route::post('/appointments/pay', [AppointmentController::class, 'pay'])->name('appointments.pay');
     Route::get('/appointments/callback', [AppointmentController::class, 'callback'])->name('appointments.callback');
 
     Route::get('/patient', [AdminController::class, 'index'])->name('patient.index');
+    Route::get('/appointments/{id}', [AppointmentController::class, 'show'])->name('appointments.show'); // View
+    Route::get('/appointments/{id}/edit', [AppointmentController::class, 'edit'])->name('appointments.edit'); // Edit
+    Route::put('/appointments/{id}', [AppointmentController::class, 'update'])->name('appointments.update'); // Update
+    Route::delete('/appointments/{id}', [AppointmentController::class, 'destroy'])->name('appointments.destroy'); // Delete
+
 });

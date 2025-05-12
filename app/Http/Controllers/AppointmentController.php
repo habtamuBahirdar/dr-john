@@ -13,6 +13,47 @@ class AppointmentController extends Controller
     /**
      * Show the appointment creation form.
      */
+    public function index()
+    {
+        // Fetch appointments for the logged-in user
+        $appointments = Appointment::where('patient_id', auth()->id())->orderBy('appointment_date', 'desc')->get();
+
+        // Return the view with the appointments
+        return view('patient.appointments.index', compact('appointments'));
+    }
+      public function show($id)
+    {
+        $appointment = Appointment::where('id', $id)->where('patient_id', auth()->id())->firstOrFail();
+        return view('patient.appointments.show', compact('appointment'));
+    }
+    public function edit($id)
+    {
+        $appointment = Appointment::where('id', $id)->where('patient_id', auth()->id())->firstOrFail();
+        return view('patient.appointments.edit', compact('appointment'));
+    }
+
+  public function update(Request $request, $id)
+    {
+        $appointment = Appointment::where('id', $id)->where('patient_id', auth()->id())->firstOrFail();
+
+        $request->validate([
+            'appointment_date' => 'required|date|after_or_equal:today',
+            'appointment_time' => 'required',
+            'appointment_type' => 'required|in:normal,urgent',
+        ]);
+
+        $appointment->update($request->only('appointment_date', 'appointment_time', 'appointment_type'));
+
+        return redirect()->route('appointments.index')->with('success', 'Appointment updated successfully!');
+    }
+
+       public function destroy($id)
+    {
+        $appointment = Appointment::where('id', $id)->where('patient_id', auth()->id())->firstOrFail();
+        $appointment->delete();
+
+        return redirect()->route('appointments.index')->with('success', 'Appointment deleted successfully!');
+    }
     public function create()
     {
         return view('patient.appointments.create'); // Ensure this view exists
