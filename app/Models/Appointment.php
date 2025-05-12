@@ -18,6 +18,10 @@ class Appointment extends Model
         'appointment_type', // Add this to the fillable array
     ];
 
+    public function schedule()
+    {
+        return $this->belongsTo(Schedule::class);
+    }
     public function patient()
     {
         return $this->belongsTo(User::class, 'patient_id');
