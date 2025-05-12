@@ -24,9 +24,9 @@ class AdminController extends Controller
 
         }
         
-        else if($usertype == 'ticketer')
+        else if($usertype == 'patient')
         {
-            return view('ticketer.index');
+            return view('patient.index');
 
         }
         else
