@@ -1,22 +1,26 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Appointment;
+use App\Models\Payment;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
-use App\Models\Payment;
-use App\Models\Medicine;
 
 class AppointmentController extends Controller
-
 {
+    /**
+     * Show the appointment creation form.
+     */
+    public function create()
+    {
+        return view('patient.appointments.create'); // Ensure this view exists
+    }
 
-             public function create()
-            {
-                return view('patient.appointments.create'); // Ensure this view exists
-            }
+    /**
+     * Handle payment initialization with Chapa.
+     */
     public function pay(Request $request)
     {
         $request->validate([
@@ -58,6 +62,9 @@ class AppointmentController extends Controller
         return back()->with('error', 'Failed to initialize payment. Please try again.');
     }
 
+    /**
+     * Handle Chapa payment callback and save appointment and payment details.
+     */
     public function callback(Request $request)
     {
         $txRef = session('tx_ref');
@@ -68,8 +75,10 @@ class AppointmentController extends Controller
             ->get(env('CHAPA_BASE_URL') . '/transaction/verify/' . $txRef);
 
         if ($response->successful() && $response->json()['status'] === 'success') {
-            // Payment successful, save appointment
-            Appointment::create([
+            $paymentData = $response->json()['data'];
+
+            // Save appointment
+            $appointment = Appointment::create([
                 'patient_id' => auth()->id(),
                 'appointment_date' => $appointmentData['appointment_date'],
                 'appointment_time' => $appointmentData['appointment_time'],
@@ -77,10 +86,19 @@ class AppointmentController extends Controller
                 'status' => 'confirmed',
             ]);
 
+            // Save payment transaction
+            Payment::create([
+                'tx_ref' => $txRef,
+                'amount' => $paymentData['amount'],
+                'currency' => $paymentData['currency'],
+                'status' => 'paid',
+                'appointment_id' => $appointment->id,
+            ]);
+
             // Clear session data
             session()->forget(['appointment_data', 'tx_ref']);
 
-            return redirect()->route('patient.index')->with('success', 'Appointment created successfully!');
+            return redirect()->route('patient.index')->with('success', 'Appointment created and payment recorded successfully!');
         }
 
         return redirect()->route('patient.index')->with('error', 'Payment verification failed. Please try again.');

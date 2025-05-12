@@ -30,7 +30,7 @@
             <h2 class="text-xl font-bold text-blue-700 mb-4">Payment Information</h2>
             <p class="text-gray-600">Please proceed to payment to confirm your appointment.</p>
             <ul class="list-disc list-inside mt-2">
-                <li>Amount: $100</li>
+                <li>Amount: ETB 100</li>
                 <li>Payment Method: Credit/Debit Card</li>
             </ul>
             <p class="mt-4">You will receive a confirmation email once the payment is processed.</p>
