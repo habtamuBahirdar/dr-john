@@ -52,11 +52,11 @@
                 Make an Appointment
             </a>
         </div>
-         @if (session('success'))
-            <div class="bg-green-500 text-white p-4 rounded-lg shadow-md mb-4">
-                {{ session('success') }}
-            </div>
-        @endif
+             @if (session('success'))
+        <div class="bg-green-100 text-green-700 p-3 rounded-md shadow-sm mb-4">
+            {{ session('success') }}
+        </div>
+    @endif
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-blue-400">

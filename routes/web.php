@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\Scheduler\ScheduleController;
+
+
 
 Route::get('/', function () {
     return view('home');
@@ -34,5 +37,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/appointments/{id}/edit', [AppointmentController::class, 'edit'])->name('appointments.edit'); // Edit
     Route::put('/appointments/{id}', [AppointmentController::class, 'update'])->name('appointments.update'); // Update
     Route::delete('/appointments/{id}', [AppointmentController::class, 'destroy'])->name('appointments.destroy'); // Delete
+
+
+
+     Route::get('/schedules/create', [ScheduleController::class, 'create'])->name('schedules.create'); // Show form
+    Route::post('/schedules', [ScheduleController::class, 'store'])->name('schedules.store'); // Handle form submission
+
 
 });
