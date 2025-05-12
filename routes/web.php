@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\Admin\UserController;
 
 Route::get('/', function () {
     return view('home');
@@ -36,3 +37,9 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/appointments/{id}', [AppointmentController::class, 'destroy'])->name('appointments.destroy'); // Delete
 
 });
+
+Route::middleware(['auth'])->prefix('admin')->group(function () {
+    Route::resource('users', App\Http\Controllers\Admin\UserController::class);
+});
+Route::patch('/admin/users/{user}/toggle', [UserController::class, 'toggleActive'])->name('users.toggle');
+
