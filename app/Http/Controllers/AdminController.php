@@ -29,6 +29,11 @@ class AdminController extends Controller
             return view('patient.index');
 
         }
+         else if($usertype == 'scheduler')
+        {
+            return view('scheduler.index');
+
+        }
         else
         {
             return redirect()->back();
