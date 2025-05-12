@@ -15,6 +15,7 @@ class Appointment extends Model
         'appointment_time',
         'payment_status',
         'status',
+        'appointment_type', // Add this to the fillable array
     ];
 
     public function patient()
