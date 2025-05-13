@@ -10,6 +10,48 @@ class ScheduleController extends Controller
     /**
      * Show the form for creating a new schedule.
      */
+       public function index()
+    {
+        $schedules = Schedule::orderBy('date', 'asc')->orderBy('start_time', 'asc')->get();
+        return view('scheduler.schedules.index', compact('schedules'));
+    }
+
+    /**
+     * Show the form for editing a specific schedule.
+     */
+    public function edit($id)
+    {
+        $schedule = Schedule::findOrFail($id);
+        return view('scheduler.schedules.edit', compact('schedule'));
+    }
+
+       public function update(Request $request, $id)
+    {
+        $schedule = Schedule::findOrFail($id);
+
+        $request->validate([
+            'date' => 'required|date|after_or_equal:today',
+            'session' => 'required|in:morning,afternoon',
+            'start_time' => 'required|date_format:H:i',
+            'end_time' => 'required|date_format:H:i|after:start_time',
+            'max_patients' => 'required|integer|min:1',
+        ]);
+
+        $schedule->update($request->only('date', 'session', 'start_time', 'end_time', 'max_patients'));
+
+        return redirect()->route('schedules.index')->with('success', 'Schedule updated successfully!');
+    }
+
+    /**
+     * Remove the specified schedule from the database.
+     */
+    public function destroy($id)
+    {
+        $schedule = Schedule::findOrFail($id);
+        $schedule->delete();
+
+        return redirect()->route('schedules.index')->with('success', 'Schedule deleted successfully!');
+    }
     public function create()
     {
         return view('scheduler.schedules.create');

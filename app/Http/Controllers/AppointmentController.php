@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Appointment;
 use App\Models\Payment;
 use Illuminate\Support\Facades\Http;
+use App\Models\Schedule;
 use Illuminate\Support\Facades\Auth;
 
 class AppointmentController extends Controller
@@ -55,9 +56,19 @@ class AppointmentController extends Controller
         return redirect()->route('appointments.index')->with('success', 'Appointment deleted successfully!');
     }
     public function create()
-    {
-        return view('patient.appointments.create'); // Ensure this view exists
-    }
+{
+    // Fetch available schedules
+    $schedules = Schedule::where('status', 'open')
+        ->where('current_patients', '<', 'max_patients')
+        ->orderBy('date', 'asc')
+        ->orderBy('start_time', 'asc')
+        ->get();
+
+    // Debugging: Log the schedules to check if data is fetched
+    \Log::info($schedules);
+
+    return view('patient.appointments.create', compact('schedules'));
+}
 
     /**
      * Handle payment initialization with Chapa.

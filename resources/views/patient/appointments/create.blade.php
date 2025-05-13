@@ -16,6 +16,30 @@
                 amountInput.value = 100; // Set amount for normal appointments
             }
         }
+
+        function updateTimes() {
+            const dateSelect = document.getElementById('appointment_date');
+            const timeSelect = document.getElementById('appointment_time');
+            const selectedDate = dateSelect.value;
+
+            // Hide all time options initially
+            const timeOptions = timeSelect.querySelectorAll('option');
+            timeOptions.forEach(option => {
+                option.style.display = 'none';
+                option.disabled = true;
+            });
+
+            // Show only the time options for the selected date
+            timeOptions.forEach(option => {
+                if (option.dataset.date === selectedDate) {
+                    option.style.display = 'block';
+                    option.disabled = false;
+                }
+            });
+
+            // Reset the time selection
+            timeSelect.value = '';
+        }
     </script>
 </head>
 <body class="bg-gray-100 text-gray-800">
@@ -25,11 +49,23 @@
             @csrf
             <div class="mb-4">
                 <label for="appointment_date" class="block text-gray-700 font-bold mb-2">Appointment Date</label>
-                <input type="date" id="appointment_date" name="appointment_date" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200" required>
+                <select id="appointment_date" name="appointment_date" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200" onchange="updateTimes()" required>
+                    <option value="" disabled selected>Select a date</option>
+                    @foreach ($schedules->groupBy('date') as $date => $dateSchedules)
+                        <option value="{{ $date }}">{{ $date }}</option>
+                    @endforeach
+                </select>
             </div>
             <div class="mb-4">
                 <label for="appointment_time" class="block text-gray-700 font-bold mb-2">Appointment Time</label>
-                <input type="time" id="appointment_time" name="appointment_time" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200" required>
+                <select id="appointment_time" name="appointment_time" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200" required>
+                    <option value="" disabled selected>Select a time</option>
+                    @foreach ($schedules as $schedule)
+                        <option value="{{ $schedule->start_time }} - {{ $schedule->end_time }}" data-date="{{ $schedule->date }}">
+                            {{ $schedule->start_time }} - {{ $schedule->end_time }} ({{ ucfirst($schedule->session) }})
+                        </option>
+                    @endforeach
+                </select>
             </div>
             <div class="mb-4">
                 <label for="appointment_type" class="block text-gray-700 font-bold mb-2">Appointment Type</label>

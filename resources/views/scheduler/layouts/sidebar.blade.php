@@ -12,7 +12,7 @@
                 </svg>
             </button>
             <div id="scheduleSubMenu" class="ml-4 mt-1 space-y-1 hidden">
-                <a href="#" class="block hover:bg-green-500 px-4 py-1 rounded">All Schedules</a>
+                <a href="{{ route('schedules.index') }}" class="block hover:bg-green-500 px-4 py-1 rounded">All Schedules</a>
                 <a href="{{ route('schedules.create') }}" class="block hover:bg-green-500 px-4 py-1 rounded">Create Schedule</a>
             </div>
         </div>
