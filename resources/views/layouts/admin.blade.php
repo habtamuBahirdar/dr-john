@@ -44,9 +44,10 @@
         <nav class="space-y-3">
             <a href="#" class="block hover:bg-indigo-600 px-4 py-2 rounded">Dashboard</a>
             <a href="#" class="block hover:bg-indigo-600 px-4 py-2 rounded">Appointments</a>
-            <a href="#" class="block hover:bg-indigo-600 px-4 py-2 rounded">Doctors</a>
             <a href="{{ route('patients.index') }}" class="block hover:bg-indigo-600 px-4 py-2 rounded">Patients</a>
             <a href="{{ route('users.index') }}" class="block hover:bg-indigo-600 px-4 py-2 rounded">Manage Users</a>
+{{-- filepath: resources/views/layouts/admin.blade.php --}}
+<a href="{{ route('transactions.index') }}" class="block hover:bg-indigo-600 px-4 py-2 rounded">Transactions</a>
 
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
@@ -54,6 +55,7 @@
                     Logout
                 </button>
             </form>
+
         </nav>
     </div>
 
