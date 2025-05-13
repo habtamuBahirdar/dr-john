@@ -18,8 +18,8 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+        return redirect('/home');
+    })->name('home');
 });
 
 Route::patch('/admin/users/{user}/toggle', [UserController::class, 'toggleActive'])->name('users.toggle');
@@ -33,8 +33,6 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::resource('users', App\Http\Controllers\Admin\UserController::class);
     Route::get('patients', [App\Http\Controllers\Admin\PatientController::class, 'index'])->name('patients.index');
     Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
-
-    
 });
 
 Route::middleware(['auth'])->group(function () {

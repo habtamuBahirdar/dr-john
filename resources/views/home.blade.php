@@ -25,7 +25,7 @@
                 <div class="text-xl font-bold text-blue-700">Deshet Indigenous Medical Center</div>
             </div>
             <div class="hidden md:flex items-center space-x-6">
-                <a href="#" class="text-blue-700 hover:underline transition">Home</a>
+                <a href="/home" class="text-blue-700 hover:underline transition">Home</a>
                 <a href="#about" class="text-blue-700 hover:underline transition">About</a>
                 <a href="#blog" class="text-blue-700 hover:underline transition">Blog</a>
                 <a href="#reviews" class="text-blue-700 hover:underline transition">Reviews</a>
