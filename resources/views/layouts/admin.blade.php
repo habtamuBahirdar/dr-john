@@ -42,8 +42,7 @@
         class="fixed top-0 left-0 h-full w-64 bg-indigo-700 text-white p-4 space-y-4 z-50 transform transition-transform duration-300 md:translate-x-0 -translate-x-full">
         <h2 class="text-2xl font-bold mb-6">Admin</h2>
         <nav class="space-y-3">
-            <a href="#" class="block hover:bg-indigo-600 px-4 py-2 rounded">Dashboard</a>
-            <a href="#" class="block hover:bg-indigo-600 px-4 py-2 rounded">Appointments</a>
+<a href="{{ route('admin.index') }}" class="block hover:bg-indigo-600 px-4 py-2 rounded">Dashboard</a>            <a href="#" class="block hover:bg-indigo-600 px-4 py-2 rounded">Appointments</a>
             <a href="{{ route('patients.index') }}" class="block hover:bg-indigo-600 px-4 py-2 rounded">Patients</a>
             <a href="{{ route('users.index') }}" class="block hover:bg-indigo-600 px-4 py-2 rounded">Manage Users</a>
 {{-- filepath: resources/views/layouts/admin.blade.php --}}
