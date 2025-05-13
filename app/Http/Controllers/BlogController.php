@@ -3,6 +3,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Blog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class BlogController extends Controller
 {
@@ -87,4 +89,19 @@ public function update(Request $request, Blog $blog)
         $blog->delete();
         return redirect()->route('blogs.index')->with('success', 'Blog deleted successfully!');
     }
+public function deleteImage(Blog $blog, $imageIndex)
+{
+    $imageField = 'image_' . $imageIndex;
+
+    if ($blog->{$imageField}) {
+        // Delete the image file from storage
+        Storage::disk('public')->delete($blog->{$imageField});
+
+        // Set the image field to null in the database
+        $blog->{$imageField} = null;
+        $blog->save();
+    }
+
+    return redirect()->route('blogs.edit', $blog)->with('success', 'Image deleted successfully!');
+}
 }

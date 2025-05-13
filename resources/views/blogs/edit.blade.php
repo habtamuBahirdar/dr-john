@@ -3,6 +3,11 @@
 
 @section('content')
     <h1 class="text-2xl font-bold mb-4">Edit Blog</h1>
+    @if (session('success'))
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
+        {{ session('success') }}
+    </div>
+@endif
 
     <form action="{{ route('blogs.update', $blog) }}" method="POST" enctype="multipart/form-data">
         @csrf
@@ -26,7 +31,18 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                 @for ($i = 1; $i <= 5; $i++)
                     @if ($blog->{'image_' . $i})
-                        <img src="{{ asset('storage/' . $blog->{'image_' . $i}) }}" alt="Blog Image {{ $i }}" class="w-full h-40 object-cover rounded-lg">
+                        <div class="relative">
+                            <img src="{{ asset('storage/' . $blog->{'image_' . $i}) }}" alt="Blog Image {{ $i }}" class="w-full h-40 object-cover rounded-lg">
+                            <form action="{{ route('blogs.deleteImage', [$blog, $i]) }}" method="POST" class="absolute top-2 right-2">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="bg-red-500 text-white p-1 rounded-full">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            </form>
+                        </div>
                     @endif
                 @endfor
             </div>
