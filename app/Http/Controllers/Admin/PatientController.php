@@ -11,10 +11,18 @@ class PatientController extends Controller
 {
     public function index(Request $request)
     {
-        // Only patients who have at least one appointment
-        $patients = User::where('usertype', 'patient')
-            ->whereHas('appointments')
-            ->with(['appointments' => function ($q) {
+        $status = $request->input('status');
+
+        $patients = \App\Models\User::where('usertype', 'patient')
+            ->whereHas('appointments', function ($q) use ($status) {
+                if ($status) {
+                    $q->where('status', $status);
+                }
+            })
+            ->with(['appointments' => function ($q) use ($status) {
+                if ($status) {
+                    $q->where('status', $status);
+                }
                 $q->orderBy('appointment_date', 'desc')->orderBy('appointment_time', 'desc');
             }])
             ->get();
