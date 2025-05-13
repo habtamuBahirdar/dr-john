@@ -6,6 +6,9 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Scheduler\ScheduleController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\BlogController;
+
+
 
 
 Route::get('/', function () {
@@ -21,6 +24,7 @@ Route::middleware([
         return redirect('/home');
     })->name('home');
 });
+Route::resource('blogs', BlogController::class);
 
 Route::patch('/admin/users/{user}/toggle', [UserController::class, 'toggleActive'])->name('users.toggle');
 Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
