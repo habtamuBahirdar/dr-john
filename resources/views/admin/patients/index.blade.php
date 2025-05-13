@@ -2,38 +2,65 @@
 
 @section('content')
     <h1 class="text-2xl font-bold mb-4">Patients & Appointments</h1>
-    <table class="w-full bg-white shadow-md rounded">
-        <thead>
-            <tr>
-                <th class="p-3">Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Appointments</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($patients as $patient)
-                <tr>
-                    <td class="p-3 font-semibold">{{ $patient->name }}</td>
-                    <td>{{ $patient->email }}</td>
-                    <td>{{ $patient->phone ?? '-' }}</td>
-                    <td>
-                        @if ($patient->appointments->count())
-                            <ul class="list-disc ml-4">
-                                @foreach ($patient->appointments as $appointment)
-                                    <li>
-                                        {{ $appointment->appointment_date }} {{ $appointment->appointment_time }} -
-                                        <span class="capitalize">{{ $appointment->status }}</span>
-                                        (Payment: {{ $appointment->payment_status }})
-                                    </li>
-                                @endforeach
-                            </ul>
-                        @else
-                            <span class="text-gray-400">No appointments</span>
-                        @endif
-                    </td>
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white shadow-lg rounded-lg border">
+            <thead>
+                <tr class="bg-indigo-100 text-indigo-900 uppercase text-xs tracking-wider">
+                    <th class="p-3 font-semibold border-b text-center">ID</th>
+                    <th class="p-3 font-semibold border-b text-center">Name</th>
+                    <th class="p-3 font-semibold border-b text-center">Email</th>
+                    <th class="p-3 font-semibold border-b text-center">Phone</th>
+                    <th class="p-3 font-semibold border-b text-center">Patient ID</th>
+                    <th class="p-3 font-semibold border-b text-center">Staff ID</th>
+                    <th class="p-3 font-semibold border-b text-center">Appointment Date</th>
+                    <th class="p-3 font-semibold border-b text-center">Appointment Time</th>
+                    <th class="p-3 font-semibold border-b text-center">Payment Status</th>
+                    <th class="p-3 font-semibold border-b text-center">Status</th>
+                    <th class="p-3 font-semibold border-b text-center">Appointment Type</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach ($patients as $patient)
+                    @if ($patient->appointments->count())
+                        @foreach ($patient->appointments as $appointment)
+                            <tr class="hover:bg-indigo-50 transition-colors">
+                                <td class="p-2 border-b text-center">{{ $appointment->id }}</td>
+                                <td class="p-2 border-b text-center font-semibold">{{ $patient->name }}</td>
+                                <td class="p-2 border-b text-center">{{ $patient->email }}</td>
+                                <td class="p-2 border-b text-center">{{ $patient->phone ?? '-' }}</td>
+                                <td class="p-2 border-b text-center">{{ $appointment->patient_id }}</td>
+                                <td class="p-2 border-b text-center">{{ $appointment->staff_id ?? '-' }}</td>
+                                <td class="p-2 border-b text-center">{{ $appointment->appointment_date }}</td>
+                                <td class="p-2 border-b text-center">{{ $appointment->appointment_time }}</td>
+                                <td class="p-2 border-b capitalize text-center">
+                                    <span
+                                        class="@if ($appointment->payment_status == 'completed') text-green-600 @elseif($appointment->payment_status == 'failed') text-red-600 @else text-yellow-600 @endif">
+                                        {{ $appointment->payment_status }}
+                                    </span>
+                                </td>
+                                <td class="p-2 border-b capitalize text-center">
+                                    <span
+                                        class="@if ($appointment->status == 'completed') text-green-600 @elseif($appointment->status == 'cancelled') text-red-600 @elseif($appointment->status == 'pending') text-yellow-600 @else text-blue-600 @endif">
+                                        {{ $appointment->status }}
+                                    </span>
+                                </td>
+                                <td class="p-2 border-b capitalize text-center">
+                                    <span
+                                        class="@if ($appointment->appointment_type == 'urgent') text-red-600 font-bold @else text-gray-700 @endif">
+                                        {{ $appointment->appointment_type }}
+                                    </span>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @else
+                        <tr>
+                            <td class="p-2 text-center text-gray-400" colspan="11">
+                                {{ $patient->name }} ({{ $patient->email }}) has no appointments
+                            </td>
+                        </tr>
+                    @endif
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 @endsection
