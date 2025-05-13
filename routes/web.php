@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Scheduler\ScheduleController;
+use App\Http\Controllers\TransactionController;
 
 
 Route::get('/', function () {
@@ -31,6 +32,9 @@ Route::get('/admin/users/create', [App\Http\Controllers\Admin\UserController::cl
 Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::resource('users', App\Http\Controllers\Admin\UserController::class);
     Route::get('patients', [App\Http\Controllers\Admin\PatientController::class, 'index'])->name('patients.index');
+    Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
+
+    
 });
 
 Route::middleware(['auth'])->group(function () {
