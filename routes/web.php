@@ -30,6 +30,7 @@ Route::get('/admin/users/create', [App\Http\Controllers\Admin\UserController::cl
 
 Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::resource('users', App\Http\Controllers\Admin\UserController::class);
+    Route::get('patients', [App\Http\Controllers\Admin\PatientController::class, 'index'])->name('patients.index');
 });
 
 Route::middleware(['auth'])->group(function () {
