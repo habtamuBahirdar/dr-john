@@ -36,7 +36,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/patient', [AdminController::class, 'index'])->name('patient.index');
 
-    
+
     // Appointments Routes
     Route::get('/appointments/create', [AppointmentController::class, 'create'])->name('appointments.create');
     Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointments.index');
@@ -46,6 +46,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/appointments/{id}/edit', [AppointmentController::class, 'edit'])->name('appointments.edit'); // Edit
     Route::put('/appointments/{id}', [AppointmentController::class, 'update'])->name('appointments.update'); // Update
     Route::delete('/appointments/{id}', [AppointmentController::class, 'destroy'])->name('appointments.destroy'); // Delete
+    Route::post('/appointments/{id}/complete', [AppointmentController::class, 'complete'])->name('appointments.complete');
 
     // Schedules Routes
     Route::get('/schedules/create', [ScheduleController::class, 'create'])->name('schedules.create'); // Show form

@@ -17,6 +17,7 @@
                     <th class="p-3 font-semibold border-b text-center">Payment Status</th>
                     <th class="p-3 font-semibold border-b text-center">Status</th>
                     <th class="p-3 font-semibold border-b text-center">Appointment Type</th>
+                    <th class="p-3 font-semibold border-b text-center">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -50,11 +51,26 @@
                                         {{ $appointment->appointment_type }}
                                     </span>
                                 </td>
+                                <td class="p-2 border-b text-center">
+                                    @if ($appointment->status !== 'completed')
+                                        <form action="{{ route('appointments.complete', $appointment->id) }}"
+                                            method="POST"
+                                            onsubmit="return confirm('Mark this appointment as completed?');">
+                                            @csrf
+                                            <button type="submit"
+                                                class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-xs">
+                                                Complete
+                                            </button>
+                                        </form>
+                                    @else
+                                        <span class="text-green-600 font-semibold">Completed</span>
+                                    @endif
+                                </td>
                             </tr>
                         @endforeach
                     @else
                         <tr>
-                            <td class="p-2 text-center text-gray-400" colspan="11">
+                            <td class="p-2 text-center text-gray-400" colspan="12">
                                 {{ $patient->name }} ({{ $patient->email }}) has no appointments
                             </td>
                         </tr>
