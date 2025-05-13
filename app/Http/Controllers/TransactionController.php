@@ -36,6 +36,9 @@ public function index(Request $request)
     // Paginate the results
     $transactions = $query->paginate(10);
 
-    return view('admin.transactions.index', compact('transactions', 'search', 'startDate', 'endDate'));
+    // Calculate the total amount of filtered transactions
+    $totalAmount = $query->sum('amount');
+
+    return view('admin.transactions.index', compact('transactions', 'search', 'startDate', 'endDate', 'totalAmount'));
 }
 }

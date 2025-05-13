@@ -40,6 +40,14 @@
         </div>
     </form>
 
+    {{-- Total Amount Card --}}
+    <div class="mb-6">
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg">
+            <p class="font-bold">Total Amount:</p>
+            <p class="text-lg">{{ number_format($totalAmount, 2) }} {{ $transactions->first()->currency ?? 'USD' }}</p>
+        </div>
+    </div>
+
     {{-- Transactions Table --}}
     <table class="w-full border-collapse border border-gray-300">
         <thead>
