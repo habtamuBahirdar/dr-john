@@ -8,6 +8,10 @@ use App\Models\Payment;
 use Illuminate\Support\Facades\Http;
 use App\Models\Schedule;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+
+
+
 
 class AppointmentController extends Controller
 {
@@ -55,19 +59,23 @@ class AppointmentController extends Controller
 
         return redirect()->route('appointments.index')->with('success', 'Appointment deleted successfully!');
     }
-    public function create()
+
+public function create()
 {
-    // Fetch available schedules
+    // Fetch schedules that are marked 'open' and not fully booked
     $schedules = Schedule::where('status', 'open')
-        ->where('current_patients', '<', 'max_patients')
+        ->whereColumn('current_patients', '<', 'max_patients') // Use whereColumn for column vs column
         ->orderBy('date', 'asc')
         ->orderBy('start_time', 'asc')
         ->get();
 
-    // Debugging: Log the schedules to check if data is fetched
-    \Log::info($schedules);
+    // Extract available dates (Y-m-d format)
+    $availableDates = $schedules->pluck('date')->unique()->values();
 
-    return view('patient.appointments.create', compact('schedules'));
+    // Group schedules by date
+    $groupedSchedules = $schedules->groupBy('date');
+
+    return view('patient.appointments.create', compact('availableDates', 'groupedSchedules'));
 }
 
     /**
@@ -148,6 +156,19 @@ public function callback(Request $request)
             'status' => 'paid',
             'appointment_id' => $appointment->id,
         ]);
+                    // Extract values from request
+          // Use the correct values from session (not $request)
+$appointmentDate = $appointmentData['appointment_date'];
+$appointmentTime = $appointmentData['appointment_time'];
+
+$schedule = Schedule::where('date', $appointmentDate)
+    ->where('start_time', $appointmentTime)
+    ->first();
+
+if ($schedule) {
+    $schedule->increment('current_patients');
+}
+
 
         // Clear session data
         session()->forget(['appointment_data', 'tx_ref']);

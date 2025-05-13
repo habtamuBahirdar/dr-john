@@ -33,6 +33,9 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/patient', [AdminController::class, 'index'])->name('patient.index');
+
+    
     // Appointments Routes
     Route::get('/appointments/create', [AppointmentController::class, 'create'])->name('appointments.create');
     Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointments.index');
