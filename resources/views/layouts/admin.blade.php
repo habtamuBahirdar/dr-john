@@ -47,8 +47,7 @@
             <a href="{{ route('users.index') }}" class="block hover:bg-indigo-600 px-4 py-2 rounded">Manage Users</a>
 {{-- filepath: resources/views/layouts/admin.blade.php --}}
 <a href="{{ route('transactions.index') }}" class="block hover:bg-indigo-600 px-4 py-2 rounded">Transactions</a>
-<a href="" class="block hover:bg-indigo-600 px-4 py-2 rounded">Blog</a>
-
+<a href="{{ route('blogs.index') }}" class="block hover:bg-indigo-600 px-4 py-2 rounded">Blog</a>
 
             <form method="POST" action="{{ route('logout') }}">
                 @csrf

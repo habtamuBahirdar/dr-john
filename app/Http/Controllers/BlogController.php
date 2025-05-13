@@ -17,30 +17,34 @@ class BlogController extends Controller
         return view('blogs.create');
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required',
-            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+public function store(Request $request)
+{
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'content' => 'required',
+        'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate each image
+    ]);
 
-        $blog = new Blog();
-        $blog->title = $request->title;
-        $blog->content = $request->content;
+    $blog = new Blog();
+    $blog->title = $request->title;
+    $blog->content = $request->content;
 
-        // Handle image uploads
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $index => $image) {
-                $imagePath = $image->store('blogs', 'public');
-                $blog->{'image_' . ($index + 1)} = $imagePath;
+    // Handle image uploads
+    if ($request->hasFile('images')) {
+        foreach ($request->file('images') as $index => $image) {
+            if ($index < 5) { // Limit to 5 images
+                $imagePath = $image->store('blogs', 'public'); // Save to 'storage/app/public/blogs'
+                $blog->{'image_' . ($index + 1)} = $imagePath; // Save the path to the corresponding column
             }
         }
-
-        $blog->save();
-
-        return redirect()->route('blogs.index')->with('success', 'Blog created successfully!');
     }
+
+    $blog->save();
+
+    return redirect()->route('blogs.index')->with('success', 'Blog created successfully!');
+}
+
+
 
     public function show(Blog $blog)
     {
@@ -52,29 +56,31 @@ class BlogController extends Controller
         return view('blogs.edit', compact('blog'));
     }
 
-    public function update(Request $request, Blog $blog)
-    {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required',
-            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+public function update(Request $request, Blog $blog)
+{
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'content' => 'required',
+        'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
 
-        $blog->title = $request->title;
-        $blog->content = $request->content;
+    $blog->title = $request->title;
+    $blog->content = $request->content;
 
-        // Handle image uploads
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $index => $image) {
+    // Handle image uploads
+    if ($request->hasFile('images')) {
+        foreach ($request->file('images') as $index => $image) {
+            if ($index < 5) { // Limit to 5 images
                 $imagePath = $image->store('blogs', 'public');
                 $blog->{'image_' . ($index + 1)} = $imagePath;
             }
         }
-
-        $blog->save();
-
-        return redirect()->route('blogs.index')->with('success', 'Blog updated successfully!');
     }
+
+    $blog->save();
+
+    return redirect()->route('blogs.index')->with('success', 'Blog updated successfully!');
+}
 
     public function destroy(Blog $blog)
     {

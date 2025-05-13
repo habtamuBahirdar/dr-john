@@ -25,6 +25,7 @@ Route::middleware([
     })->name('home');
 });
 Route::resource('blogs', BlogController::class);
+Route::get('/blogs/create', [BlogController::class, 'create'])->name('blogs.create');
 
 Route::patch('/admin/users/{user}/toggle', [UserController::class, 'toggleActive'])->name('users.toggle');
 Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
