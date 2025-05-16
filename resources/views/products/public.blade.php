@@ -1,5 +1,7 @@
-{{-- resources/views/products/public.blade.php --}}
-<x-app-layout>
+{{-- filepath: resources/views/products/public.blade.php --}}
+@extends('layouts.publicLayout')
+
+@section('content')
     <h1 class="text-3xl font-bold mb-6 text-center">Our Products</h1>
     <div class="grid md:grid-cols-3 gap-6">
         @forelse($products as $product)
@@ -21,4 +23,4 @@
     <div class="mt-6">
         {{ $products->links() }}
     </div>
-</x-app-layout>
+@endsection
