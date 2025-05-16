@@ -7,6 +7,8 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Scheduler\ScheduleController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\ProductController;
+
 
 
 
@@ -66,3 +68,12 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/schedules/{id}', [ScheduleController::class, 'update'])->name('schedules.update'); // Update schedule
     Route::delete('/schedules/{id}', [ScheduleController::class, 'destroy'])->name('schedules.destroy'); // Delete schedule
 });
+
+Route::get('/products', function() { return 'Products'; })->name('products.index');
+Route::get('/orders', function() { return 'Orders'; })->name('orders.index');
+Route::get('/orders/completed', function() { return 'Completed Orders'; })->name('orders.completed');
+Route::get('/orders/pending', function() { return 'Pending Orders'; })->name('orders.pending');
+
+
+Route::resource('products', ProductController::class);
+Route::get('/our-products', [ProductController::class, 'publicIndex'])->name('products.public');

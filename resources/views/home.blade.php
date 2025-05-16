@@ -28,8 +28,7 @@
                 <a href="/home" class="text-blue-700 hover:underline transition">Home</a>
                 <a href="#about" class="text-blue-700 hover:underline transition">About</a>
                 <a href="#blog" class="text-blue-700 hover:underline transition">Blog</a>
-                <a href="#reviews" class="text-blue-700 hover:underline transition">Reviews</a>
-                <a href="#contact" class="text-blue-700 hover:underline transition">Contact</a>
+<a href="{{ route('products.public') }}" class="text-blue-700 hover:underline transition">Our Products</a>
                 <a href="/login"
                     class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Login</a>
             </div>
@@ -47,9 +46,10 @@
             <h2 class="text-lg font-bold text-blue-700 mt-6">Menu</h2>
             <nav class="mt-4 space-y-2">
                 <a href="#" class="block text-blue-600 hover:underline">Home</a>
+
                 <a href="#about" class="block text-blue-600 hover:underline">About</a>
                 <a href="#blog" class="block text-blue-600 hover:underline">Blog</a>
-                <a href="#reviews" class="block text-blue-600 hover:underline">Reviews</a>
+<a href="{{ route('products.public') }}" class="text-blue-700 hover:underline transition">Our Products</a>
                 <a href="#contact" class="block text-blue-600 hover:underline">Contact</a>
                 <a href="/login" class="block text-white bg-blue-600 px-4 py-2 rounded hover:bg-blue-700">Login</a>
             </nav>

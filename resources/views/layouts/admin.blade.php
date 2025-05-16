@@ -41,22 +41,38 @@
     <div id="adminSidebar"
         class="fixed top-0 left-0 h-full w-64 bg-indigo-700 text-white p-4 space-y-4 z-50 transform transition-transform duration-300 md:translate-x-0 -translate-x-full">
         <h2 class="text-2xl font-bold mb-6">Admin</h2>
-        <nav class="space-y-3">
-<a href="{{ route('admin.index') }}" class="block hover:bg-indigo-600 px-4 py-2 rounded">Dashboard</a>            <a href="#" class="block hover:bg-indigo-600 px-4 py-2 rounded">Appointments</a>
-            <a href="{{ route('patients.index') }}" class="block hover:bg-indigo-600 px-4 py-2 rounded">Patients</a>
-            <a href="{{ route('users.index') }}" class="block hover:bg-indigo-600 px-4 py-2 rounded">Manage Users</a>
-{{-- filepath: resources/views/layouts/admin.blade.php --}}
-<a href="{{ route('transactions.index') }}" class="block hover:bg-indigo-600 px-4 py-2 rounded">Transactions</a>
-<a href="{{ route('blogs.index') }}" class="block hover:bg-indigo-600 px-4 py-2 rounded">Blog</a>
+   <nav class="space-y-3">
+    <a href="{{ route('admin.index') }}" class="block hover:bg-indigo-600 px-4 py-2 rounded">Dashboard</a>
+    <a href="#" class="block hover:bg-indigo-600 px-4 py-2 rounded">Appointments</a>
+    <a href="{{ route('patients.index') }}" class="block hover:bg-indigo-600 px-4 py-2 rounded">Patients</a>
+    <a href="{{ route('users.index') }}" class="block hover:bg-indigo-600 px-4 py-2 rounded">Manage Users</a>
+    <a href="{{ route('transactions.index') }}" class="block hover:bg-indigo-600 px-4 py-2 rounded">Transactions</a>
+    <a href="{{ route('blogs.index') }}" class="block hover:bg-indigo-600 px-4 py-2 rounded">Blog</a>
 
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" class="w-full text-left hover:bg-indigo-600 px-4 py-2 rounded">
-                    Logout
-                </button>
-            </form>
+    {{-- Product Menu with Submenu --}}
+    <div class="relative">
+        <button type="button" onclick="document.getElementById('productSubMenu').classList.toggle('hidden')" class="w-full text-left block hover:bg-indigo-600 px-4 py-2 rounded flex items-center justify-between">
+            Product
+            <svg class="w-4 h-4 ml-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+        </button>
+        <div id="productSubMenu" class="ml-4 mt-2 space-y-1 hidden">
+            <a href="{{ route('products.index') }}" class="block hover:bg-indigo-600 px-4 py-2 rounded">Products</a>
+            <a href="{{ route('orders.index') }}" class="block hover:bg-indigo-600 px-4 py-2 rounded">Orders</a>
+            <a href="{{ route('orders.completed') }}" class="block hover:bg-indigo-600 px-4 py-2 rounded">Completed Orders</a>
+            <a href="{{ route('orders.pending') }}" class="block hover:bg-indigo-600 px-4 py-2 rounded">Pending Orders</a>
+        </div>
+    </div>
+    {{-- End Product Menu --}}
 
-        </nav>
+    <form method="POST" action="{{ route('logout') }}">
+        @csrf
+        <button type="submit" class="w-full text-left hover:bg-indigo-600 px-4 py-2 rounded">
+            Logout
+        </button>
+    </form>
+</nav>
     </div>
 
     {{-- Header --}}
