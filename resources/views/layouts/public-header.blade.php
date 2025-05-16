@@ -10,6 +10,7 @@
             <a href="#about" class="text-blue-700 hover:underline transition">About</a>
             <a href="#blog" class="text-blue-700 hover:underline transition">Blog</a>
             <a href="{{ route('products.public') }}" class="text-blue-700 hover:underline transition">Our Products</a>
+            <a href="{{ route('cart.index') }}" class="text-blue-700 hover:underline transition">Cart</a>
             <a href="/login" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Login</a>
         </nav>
     </div>

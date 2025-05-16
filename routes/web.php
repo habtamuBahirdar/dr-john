@@ -8,6 +8,8 @@ use App\Http\Controllers\Scheduler\ScheduleController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CartController;
+
 
 
 
@@ -76,4 +78,13 @@ Route::get('/orders/pending', function() { return 'Pending Orders'; })->name('or
 
 
 Route::resource('products', ProductController::class);
+
+// public products
+
+Route::get('/our-products/{product}', [ProductController::class, 'showPublic'])->name('products.public.show');
 Route::get('/our-products', [ProductController::class, 'publicIndex'])->name('products.public');
+Route::post('/cart/add/{product}', [App\Http\Controllers\CartController::class, 'add'])->name('cart.add');
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/cart/update/{product}', [App\Http\Controllers\CartController::class, 'update'])->name('cart.update');
+Route::post('/cart/checkout', [App\Http\Controllers\CartController::class, 'checkout'])->name('cart.checkout');
+Route::get('/cart/payment/callback', [App\Http\Controllers\CartController::class, 'paymentCallback'])->name('cart.payment.callback');

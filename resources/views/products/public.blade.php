@@ -14,7 +14,13 @@
                 <h3 class="font-semibold text-lg text-blue-800 mb-2">{{ $product->name }}</h3>
                 <div class="text-gray-600 mb-2 text-center">{!! Str::limit(strip_tags($product->description), 60) !!}</div>
                 <div class="font-bold text-green-700 mb-2">{{ $product->price }} {{ $product->currency }}</div>
-                <button type="button" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">Add to Cart</button>
+                <div class="flex gap-2">
+                    <a href="{{ route('products.public.show', $product->id) }}" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-700">View Detail</a>
+                    <form action="{{ route('cart.add', $product->id) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-700">Add to Cart</button>
+                    </form>
+                </div>
             </div>
         @empty
             <div class="col-span-3 text-center text-gray-500">No products available.</div>

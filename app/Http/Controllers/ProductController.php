@@ -109,4 +109,10 @@ public function publicIndex()
     return view('products.public', compact('products'));
 }
 
+public function showPublic($id)
+{
+    $product = \App\Models\Product::findOrFail($id);
+    return view('products.show-public', compact('product'));
+}
+
 }
